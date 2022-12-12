@@ -6,7 +6,8 @@
       dark
     >
       <div class="d-flex align-center">
-        <v-img
+        <Logo class="pa-2" style="text-align: center"></Logo>
+        <!-- <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
@@ -22,19 +23,19 @@
           min-width="100"
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
-        />
+        /> -->
       </div>
 
       <v-spacer></v-spacer>
 
-      <v-btn
+      <!-- <v-btn
         href="https://github.com/vuetifyjs/vuetify/releases/latest"
         target="_blank"
         text
       >
         <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+        <v-icon>mdi-open-in-new</v-icon> -->
+      <!-- </v-btn> -->
     </v-app-bar>
 
     <v-main>
@@ -44,6 +45,7 @@
 </template>
 
 <script>
+import Logo from '@/components/Logo.vue'
 
 export default {
   name: 'App',
@@ -51,5 +53,8 @@ export default {
   data: () => ({
     //
   }),
+  components: {
+    Logo
+  }
 };
 </script>
