@@ -46,6 +46,12 @@ export default {
     Logo,
     Login,
   },
+  mounted() {
+    this.$root.$on('login', (mode) => {
+      this.loginDialogMode = mode
+      this.loginDialog= true
+    })
+  },
   data: () => ({
     loginDialog: false,
     loginDialogMode: "",

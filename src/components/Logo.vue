@@ -1,5 +1,5 @@
 <template>
-  <div class="subtitle-1" style="text-align: center" v-text="'THE CONFESSION SITE'">
+  <div class="subtitle-1" style="text-align: center" v-text="'THE CONFESSION SITE'" @click="goHome()">
   </div>
 </template>
 
@@ -11,5 +11,10 @@ export default {
   data: () => ({
     //
   }),
+  methods: {
+    goHome() {
+      this.$router.push('/')
+    }
+  }
 };
 </script>
