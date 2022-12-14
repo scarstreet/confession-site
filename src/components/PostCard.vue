@@ -10,7 +10,13 @@
     <v-card-text
       max-height="20px"
       class="overflow-hidden text-pre-wrap"
-      style="max-height: 120px; text-align: justify; width: 95%; margin-left: auto; margin-right: auto;"
+      style="
+        max-height: 120px;
+        text-align: justify;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+      "
       >{{ content }}</v-card-text
     >
     <v-card-actions class="ma-4">
@@ -36,10 +42,11 @@ export default {
     deletePost() {
       this.$store.dispatch();
     },
-    gotoPost() {
-      console.log(this.id)
-      this.$router.push('/post/'+this.id)
-    }
+    async gotoPost() {
+      console.log(this.id);
+      await this.$store.dispatch('getPost', this.id);
+      this.$router.push("/post/" + this.id);
+    },
   },
 };
 </script>

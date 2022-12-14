@@ -6,6 +6,7 @@ import Explore from "../views/Explore.vue";
 import NewPost from "../views/NewPost.vue";
 import Profile from "../views/Profile.vue";
 import Post from "../views/Post.vue";
+import store from '../store/index'
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,9 @@ const routes = [
     path: "/post/:id",
     name: "Post",
     component: Post,
+    props: () => {
+      store.dispatch("getPost");
+    }
   },
   {
     path: "/admin",

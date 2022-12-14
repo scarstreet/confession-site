@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import router from '../router/index'
 
 Vue.use(Vuex);
 
@@ -21,7 +22,7 @@ export default new Vuex.Store({
         id: 1,
         title: "Title 1",
         content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. \n Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. \n Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. \n\n Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. \n\n Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
         commentCnt: 3,
       },
       {
@@ -147,9 +148,21 @@ export default new Vuex.Store({
     currentComments: {
       postId: -1,
       comments: [
-        { user: "1", content: "comment 1" },
-        { user: "2", content: "comment 2" },
-        { user: "3", content: "comment 3" },
+        {
+          user: "1",
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus.",
+        },
+        {
+          user: "2",
+          content:
+            "Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. ",
+        },
+        {
+          user: "3",
+          content:
+            "Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst",
+        },
       ],
     },
   },
@@ -163,15 +176,16 @@ export default new Vuex.Store({
       return state.posts;
     },
     availablePages(state) {
-      return state.availablePages
+      return state.availablePages;
+    },
+    setCurrentPost(state, post) {
+      state.currentPost = post;
     },
     isPostOwned(state, id) {
-      if (state.isLoggedIn == false)
-        return false
-      if (state.ownPosts.filter(p => p.id == id).length != 0)
-        return true
-      return false
-    }
+      if (state.isLoggedIn == false) return false;
+      if (state.ownPosts.filter((p) => p.id == id).length != 0) return true;
+      return false;
+    },
   },
   actions: {
     // ASYNC MUTATIONS
@@ -195,15 +209,14 @@ export default new Vuex.Store({
         state.posts = state.postsDumb.slice(idxStart, idxEnd);
       else
         state.posts = state.postsDumb.slice(idxStart, state.postsDumb.length);
-      state.currentPage = page
+      state.currentPage = page;
       state.isLoading = false;
       return state.posts;
     },
-    getComments({ state }, postId) {
-      console.log(state + " " + postId);
-    },
-    getPost({ state }, postId) {
-      console.log(state + " " + postId);
+    getPost({ state }) {
+      var postId = router.currentRoute.params.id;
+      state.currentPost = state.postsDumb.filter((x) => x.id == postId)[0];
+      state.comments;
     },
     deletePost({ state }, postId) {
       state.isLoading = true;
@@ -213,7 +226,7 @@ export default new Vuex.Store({
       state.ownPosts = state.ownPosts.filter((val) => {
         return val.id != postId;
       });
-      state.allPostsCount = state.postsDumb.length
+      state.allPostsCount = state.postsDumb.length;
       state.isLoading = false;
     },
     editUser({ state }, userId, newUserData) {
