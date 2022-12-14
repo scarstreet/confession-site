@@ -46,7 +46,11 @@ export default {
     Logo,
     Login,
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('getTotalPostCount').then(() => {
+      this.$store.dispatch('getPage',this.$store.state.currentPage)
+    })
+    console.log(this.$store.state.allPostsCount)
     this.$root.$on('login', (mode) => {
       this.loginDialogMode = mode
       this.loginDialog= true
@@ -58,10 +62,12 @@ export default {
     menuDefault: [
       { label: "Log In", cdt: true },
       { label: "Register", cdt: true },
+      { label: "Explore", cdt: true },
     ],
     menuLoggedIn: [
       { label: "Profile", cdt: true },
       { label: "Add Post", cdt: true },
+      { label: "Explore", cdt: true },
       { label: "Admin", cdt: true },
       { label: "Log Out", cdt: true },
     ],
@@ -89,6 +95,9 @@ export default {
       if (pressed == "Log In" || pressed == "Register") {
         this.loginDialogMode = pressed;
         this.loginDialog = true;
+      }
+      else if (pressed == 'Explore') {
+        this.$router.push('/explore')
       }
     },
     test() {

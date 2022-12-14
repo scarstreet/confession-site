@@ -21,7 +21,7 @@ const routes = [
     component: Explore,
   },
   {
-    path: "/post",
+    path: "/post/:id",
     name: "Post",
     component: Post,
   },

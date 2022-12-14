@@ -119,10 +119,14 @@ export default {
       this.$emit('change-dialog-mode');
     },
     closeDialog() {
-      console.log(this.dialogMode);
+      // console.log(this.dialogMode);
       this.$emit("close-dialog");
     },
     clearTextFields() {
+      this.pwShow=  false;
+      this.repwShow= false;
+      this.hasError= false;
+      this.isFormValid= false;
       this.username= "";
       this.password= "";
       this.rePassword= "";

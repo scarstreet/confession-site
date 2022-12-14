@@ -1,13 +1,54 @@
 <template>
-  <div>explore</div>
+  <v-container fluid>
+    <v-col>
+      <v-row id="top"><PageControl/></v-row>
+      <v-row
+        v-for="(p, _) in currentPosts"
+        :key="_"
+        align="center"
+        justify="center"
+        style="margin-left: auto; margin-right: auto"
+      >
+        <PostCard
+          :id="p.id"
+          :title="p.title"
+          :content="p.content"
+          :isOwned="isPostOwned(p.id)"
+          :commentCnt="p.commentCnt"
+          style="margin-left: auto; margin-right: auto"
+        ></PostCard>
+      </v-row>
+      <v-row><PageControl/></v-row>
+    </v-col>
+  </v-container>
 </template>
 
 <script>
+import PostCard from "@/components/PostCard.vue";
+import PageControl from "../components/PageControl.vue";
+
 export default {
-    name: 'Explore',
-}
+  name: "Explore",
+  components: {
+    PostCard,
+    PageControl,
+  },
+  data: () => ({}),
+  mounted() {},
+  computed: {
+    currentPosts() {
+      return this.$store.state.posts;
+    },
+    currentPage() {
+      return this.$store.state.currentPage;
+    },
+  },
+  methods: {
+    isPostOwned(id) {
+      return this.$store.commit("isPostOwned", id);
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style lang="scss" scoped></style>
