@@ -91,13 +91,16 @@ export default {
       else
         this.loginDialogMode = 'Register'
     },
-    menuHandler(pressed) {
+    async menuHandler(pressed) {
       if (pressed == "Log In" || pressed == "Register") {
         this.loginDialogMode = pressed;
         this.loginDialog = true;
       }
       else if (pressed == 'Explore') {
         this.$router.push('/explore')
+      }
+      else if (pressed == 'Log Out') {
+        await this.$store.dispatch('logOut')
       }
     },
     test() {

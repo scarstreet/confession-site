@@ -44,7 +44,7 @@
                 @click:append="repwShow = !repwShow"
               ></v-text-field>
             </v-form>
-            <v-btn :disabled="!isFormValid" color="black" style="color: white">{{ dialogMode }}</v-btn>
+            <v-btn :disabled="!isFormValid || password!=rePassword" color="black" style="color: white" @click="Register()">{{ dialogMode }}</v-btn>
             <p v-if="hasError" class="caption" style="color: red">error message goes here</p>
             <v-btn text color="black" small @click="changeDialogMode()"
               >Already have an account? Click here to log in</v-btn
@@ -68,7 +68,7 @@
                 @click:append="pwShow = !pwShow"
               ></v-text-field>
             </v-form>
-            <v-btn :disabled="!isFormValid" color="black" style="color: white">{{ dialogMode }}</v-btn>
+            <v-btn :disabled="!isFormValid" color="black" style="color: white" @click="logIn()">{{ dialogMode }}</v-btn>
             <p v-if="hasError" class="caption" style="color: red">error message goes here</p>
             <v-btn text color="black" small @click="changeDialogMode()"
               >Don't have an account? Click here to register!</v-btn
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Login",
   props: {
@@ -121,6 +122,7 @@ export default {
     closeDialog() {
       // console.log(this.dialogMode);
       this.$emit("close-dialog");
+      this.clearTextFields()
     },
     clearTextFields() {
       this.pwShow=  false;
@@ -130,6 +132,14 @@ export default {
       this.username= "";
       this.password= "";
       this.rePassword= "";
+    },
+    async Register() {
+      await this.$store.dispatch('addUser', this.username, this.password)
+      this.closeDialog()
+    },
+    async logIn() {
+      await this.$store.dispatch('logIn', this.username, this.password)
+      this.closeDialog()
     }
   },
 };

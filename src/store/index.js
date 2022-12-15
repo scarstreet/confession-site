@@ -189,6 +189,12 @@ export default new Vuex.Store({
   },
   actions: {
     // ASYNC MUTATIONS
+    async addUser({ state, dispatch }, username, password) {
+      state.isLoggedIn = true;
+      await dispatch('getUserData')
+      state.userData.name = username
+      console.log(password);
+    },
     addPost({ state }, postInfo) {
       state.isPosting = true;
       console.log("ADD POST CALLED");
@@ -241,24 +247,28 @@ export default new Vuex.Store({
       console.log(state + " " + userId + " " + newUserData);
     },
     getUserDatas({ state }, userId) {
+      // FOR ADMIN
       console.log(state + " " + userId);
     },
     getUserData({ state }, id) {
       console.log(state + " " + id);
+      state.userData = state.userDumb
+      state.ownPosts = state.postsDumb.filter(x=>x.id in state.userData.posts.postIds)
     },
     async logIn({ state, dispatch }, username, password) {
       // TODO
       state.isLoading = true;
-      console.log(state + " " + username + " " + password);
+      console.log(username + " " + password);
       await dispatch("getUserData", 0);
+      state.isLoggedIn = true;
       state.isLoading = false;
     },
     logOut({ state }) {
       // TODO
       console.log("LOGOUT CALLED");
-      state.isLoggedIn = false;
-      state.userData = {};
       state.ownPosts = [];
+      state.userData = {};
+      state.isLoggedIn = false;
     },
   },
   modules: {},

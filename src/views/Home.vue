@@ -11,13 +11,13 @@
       </v-row>
       <v-row justify="center">
         <v-col align="center" justify="center" style="text-align:center">
-          <v-row v-if="!isLoggedIn" justify="center">
+          <v-row justify="center">
             <v-btn class="ma-2" color="rgba(0,0,0,.7)" style="color:white" @click="toExplore()">Read Confessions</v-btn>
           </v-row>
           <v-row v-if="!isLoggedIn" justify="center">
             <v-btn class="ma-2" color="rgba(0,0,0,.7)" style="color:white" @click="login('Register')">Register</v-btn>
           </v-row>
-          <v-row justify="center">
+          <v-row v-if="!isLoggedIn" justify="center">
             <v-btn class="ma-2" color="rgba(0,0,0,.7)" style="color:white" @click="login('Log In')">Log In</v-btn>
           </v-row>
         </v-col>

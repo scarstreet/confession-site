@@ -15,11 +15,11 @@
       <v-row align="center" justify="center">
         <v-textarea
           v-model="comment"
-          :disabled="isLoggedIn"
+          :disabled="!isLoggedIn"
           outlined
           :label="textAreaHint"
         ></v-textarea>
-        <v-btn icon color="primary" :disabled="isLoggedIn" style="margin-bottom:30px" @click="addComment()">
+        <v-btn icon color="primary" :disabled="!isLoggedIn" style="margin-bottom:30px" @click="addComment()">
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
       </v-row>
