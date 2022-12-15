@@ -149,19 +149,19 @@ export default new Vuex.Store({
       postId: -1,
       comments: [
         {
-          user: "1",
+          user: "User 1",
           content:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus.",
         },
         {
-          user: "2",
+          user: "User 2",
           content:
             "Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. ",
         },
         {
-          user: "3",
+          user: "User 3",
           content:
-            "Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst",
+            "Donec nisl dolor,",
         },
       ],
     },
@@ -196,6 +196,14 @@ export default new Vuex.Store({
       state.ownPosts.push(postInfo);
       state.ownPosts.push(postInfo);
       state.isPosting = false;
+    },
+    addComment({ state }, comment, postId) {
+      console.log(postId)
+      state.currentComments.commentCnt += 1
+      state.currentComments.comments.push({
+        user: 'You',
+        content: comment,
+      })
     },
     getTotalPostCount({ state }) {
       state.allPostsCount = state.postsDumb.length;
