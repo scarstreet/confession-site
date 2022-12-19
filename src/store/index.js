@@ -203,7 +203,7 @@ export default new Vuex.Store({
       console.log("ADD POST CALLED");
       postInfo["id"] = state.postsDumb.length + 1;
       state.ownPosts.push(postInfo);
-      state.ownPosts.push(postInfo);
+      state.userData.posts.postIds.push(postInfo["id"]);
       state.isPosting = false;
     },
     addComment({ state }, comment, postId) {
