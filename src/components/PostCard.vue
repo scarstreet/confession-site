@@ -1,13 +1,31 @@
 <template>
-  <v-card class="ma-3" width="85%" min-height="250px" @click="gotoPost()">
+  <v-card class="ma-3" width="85%" min-height="250px">
+    <v-dialog v-model="toDelete" width="500px" height="300px">
+      <v-card width="500px" height="300px">
+        <v-container fluid style="height: 100%">
+          <v-col style="height: 100%" align="center" justify="center">
+            <v-row align="center" justify="center" style="height:70%; width: 80%;">
+              <h2>
+                Are you sure you want to delete your post "{{ title }}"?
+              </h2>
+            </v-row>
+            <v-row>
+              <v-col><v-btn color="red" text @click="deletePost()">DELETE</v-btn></v-col>
+              <v-col><v-btn color="primary" text @click="toDelete = false">Cancel</v-btn></v-col>
+            </v-row>
+          </v-col>
+        </v-container>
+      </v-card>
+    </v-dialog>
     <v-card-title>
-      {{ title }}
+      <span  @click="gotoPost()">{{ title }}</span>
       <v-spacer></v-spacer>
-      <v-btn v-if="isOwned" icon>
+      <v-btn v-if="isOwned" @click="toDelete = true" icon>
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-card-title>
     <v-card-text
+      @click="gotoPost()"
       max-height="20px"
       class="overflow-hidden text-pre-wrap"
       style="
@@ -16,10 +34,9 @@
         width: 95%;
         margin-left: auto;
         margin-right: auto;
-      "
-      >{{ content }}</v-card-text
+      ">{{ content }}</v-card-text
     >
-    <v-card-actions class="ma-4">
+    <v-card-actions class="ma-4" @click="gotoPost()">
       <v-spacer></v-spacer>
       {{ commentCnt }}
       <v-icon class="ml-2">mdi-comment-processing-outline</v-icon>
@@ -34,17 +51,20 @@ export default {
     id: Number,
     title: String,
     content: String,
-    isOwned: String,
+    isOwned: Boolean,
     commentCnt: Number,
   },
-  data: () => ({}),
+  data: () => ({
+    toDelete: false,
+  }),
   methods: {
     deletePost() {
-      this.$store.dispatch();
+      this.toDelete = false;
+      this.$store.dispatch('deletePost', this.id);
     },
     async gotoPost() {
       console.log(this.id);
-      await this.$store.dispatch('getPost', this.id);
+      await this.$store.dispatch("getPost", this.id);
       this.$router.push("/post/" + this.id);
     },
   },

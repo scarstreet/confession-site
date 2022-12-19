@@ -81,6 +81,8 @@
 </template>
 
 <script>
+// import { Router } from 'express';
+
 
 export default {
   name: "Login",
@@ -136,10 +138,12 @@ export default {
     async Register() {
       await this.$store.dispatch('addUser', this.username, this.password)
       this.closeDialog()
+      this.$route.push('profile')
     },
     async logIn() {
       await this.$store.dispatch('logIn', this.username, this.password)
       this.closeDialog()
+      this.$route.push('profile')
     }
   },
 };

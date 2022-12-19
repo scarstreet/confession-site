@@ -99,8 +99,18 @@ export default {
       else if (pressed == 'Explore') {
         this.$router.push('/explore')
       }
+      else if (pressed == 'Add Post') {
+        this.$router.push('/new-post')
+      }
+      else if (pressed == 'Profile') {
+        this.$router.push('/profile')
+      }
+      else if (pressed == 'Admin') {
+        this.$router.push('/admin')
+      }
       else if (pressed == 'Log Out') {
         await this.$store.dispatch('logOut')
+        this.$router.push('/')
       }
     },
     test() {

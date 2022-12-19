@@ -10,6 +10,10 @@ import store from '../store/index'
 
 Vue.use(VueRouter);
 
+function returnHome() {
+  store.commit('returnHome')
+}
+
 const routes = [
   {
     path: "/",
@@ -27,22 +31,40 @@ const routes = [
     component: Post,
     props: () => {
       store.dispatch("getPost");
-    }
+    },
   },
   {
     path: "/admin",
     name: "Admin",
     component: Admin,
+    props: () => {
+      if (!store.state.isLoggedIn) {
+        returnHome();
+      }
+      if (!store.state.userData.isAdmin) {
+        returnHome();
+      }
+    },
   },
   {
     path: "/new-post",
     name: "NewPost",
     component: NewPost,
+    props: () => {
+      if (!store.state.isLoggedIn) {
+        returnHome();
+      }
+    },
   },
   {
     path: "/profile",
     name: "Profile",
     component: Profile,
+    props: () => {
+      if (!store.state.isLoggedIn) {
+        returnHome();
+      }
+    },
   },
 ];
 

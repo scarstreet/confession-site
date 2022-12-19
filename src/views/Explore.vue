@@ -45,7 +45,9 @@ export default {
   },
   methods: {
     isPostOwned(id) {
-      return this.$store.commit("isPostOwned", id);
+      if (this.$store.state.isLoggedIn == false) return false;
+      if (this.$store.state.ownPosts.filter((p) => p.id == id).length != 0) return true;
+      return false;
     },
   },
 };
