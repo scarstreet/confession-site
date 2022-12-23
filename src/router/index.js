@@ -31,6 +31,9 @@ const routes = [
     component: Post,
     props: () => {
       store.dispatch("getPost");
+      if (store.state.currentPost == undefined) {
+        returnHome()
+      }
     },
   },
   {
