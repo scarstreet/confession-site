@@ -131,6 +131,10 @@ export default new Vuex.Store({
         commentCnt: 3,
       },
     ],
+    // KEYS
+    CLIENT_ID:
+      "296117240787-asv9ba5nv4lp911t02mujgjnd3m9tn1k.apps.googleusercontent.com",
+    API_KEY: "AIzaSyBFHcSZoPKvTRAnwS-BPrUH2sl3IrlFEGY",
     // progress
     isLoading: false,
     encounteredError: "",
@@ -160,8 +164,7 @@ export default new Vuex.Store({
         },
         {
           user: "User 3",
-          content:
-            "Donec nisl dolor,",
+          content: "Donec nisl dolor,",
         },
       ],
     },
@@ -173,7 +176,7 @@ export default new Vuex.Store({
   },
   mutations: {
     returnHome() {
-      router.push('/')
+      router.push("/");
     },
     posts(state) {
       return state.posts;
@@ -194,8 +197,8 @@ export default new Vuex.Store({
     // ASYNC MUTATIONS
     async addUser({ state, dispatch }, username, password) {
       state.isLoggedIn = true;
-      await dispatch('getUserData')
-      state.userData.name = username
+      await dispatch("getUserData");
+      state.userData.name = username;
       console.log(password);
     },
     addPost({ state }, postInfo) {
@@ -207,12 +210,12 @@ export default new Vuex.Store({
       state.isPosting = false;
     },
     addComment({ state }, comment, postId) {
-      console.log(postId)
-      state.currentComments.commentCnt += 1
+      console.log(postId);
+      state.currentComments.commentCnt += 1;
       state.currentComments.comments.push({
-        user: 'You',
+        user: "You",
         content: comment,
-      })
+      });
     },
     getTotalPostCount({ state }) {
       state.allPostsCount = state.postsDumb.length;
@@ -258,7 +261,7 @@ export default new Vuex.Store({
     },
     getUserData({ state }, id) {
       console.log(state + " " + id);
-      state.userData = state.userDumb
+      state.userData = state.userDumb;
       state.ownPosts = [
         {
           id: 1,

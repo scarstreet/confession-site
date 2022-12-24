@@ -36,6 +36,7 @@
   </v-app>
 </template>
 
+<script src="https://apis.google.com/js/api.js"></script>
 <script>
 import Logo from "@/components/Logo.vue";
 import Login from "@/components/Login.vue";
