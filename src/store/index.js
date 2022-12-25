@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import router from '../router/index'
+import axios from "axios";
+import router from "../router/index";
 
 Vue.use(Vuex);
 
@@ -196,32 +197,99 @@ export default new Vuex.Store({
   actions: {
     // ASYNC MUTATIONS
     async addUser({ state, dispatch }, username, password) {
+      state.isLoading = true;
+      axios
+        .post("http://localhost:5000/users", {
+          username: username,
+          password: password,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       state.isLoggedIn = true;
       await dispatch("getUserData");
       state.userData.name = username;
-      console.log(password);
     },
-    addPost({ state }, postInfo) {
+    async addPost({ state }, postInfo) {
+      state.isLoading = true;
+
+      axios
+        .post("http://localhost:5000/posts", {
+          u_id: state.userData.id,
+          title: postInfo.title,
+          content: postInfo.content,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       state.isPosting = true;
-      console.log("ADD POST CALLED");
       postInfo["id"] = state.postsDumb.length + 1;
       state.ownPosts.push(postInfo);
       state.userData.posts.postIds.push(postInfo["id"]);
       state.isPosting = false;
     },
-    addComment({ state }, comment, postId) {
-      console.log(postId);
+    async addComment({ state }, comment, postId) {
+      state.isLoading = true;
+
+      axios
+        .post("http://localhost:5000/comments", {
+          u_id: state.userData.id,
+          p_id: postId,
+          content: comment,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       state.currentComments.commentCnt += 1;
       state.currentComments.comments.push({
         user: "You",
         content: comment,
       });
     },
-    getTotalPostCount({ state }) {
+    async getTotalPostCount({ state }) {
+      state.isLoading = true;
+
+      axios
+        .get("http://localhost:5000/posts/cnt")
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       state.allPostsCount = state.postsDumb.length;
       state.availablePages = Math.ceil(state.allPostsCount / state.postPerPage);
     },
-    getPage({ state }, page) {
+    async getPage({ state }, page) {
+      state.isLoading = true;
+
+      axios
+        .get(`http://localhost:5000/posts/${page}`)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       state.isLoading = true;
       var idxStart = (page - 1) * state.postPerPage;
       var idxEnd = page * state.postPerPage;
@@ -233,12 +301,36 @@ export default new Vuex.Store({
       state.isLoading = false;
       return state.posts;
     },
-    getPost({ state }) {
+    async getPost({ state }) {
+      state.isLoading = true;
       var postId = router.currentRoute.params.id;
+
+      axios
+        .get(`http://localhost:5000/posts/${postId}`)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       state.currentPost = state.postsDumb.filter((x) => x.id == postId)[0];
       state.comments;
     },
-    deletePost({ state }, postId) {
+    async deletePost({ state }, postId) {
+      state.isLoading = true;
+
+      axios
+        .delete(`http://localhost:5000/posts/${postId}`)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       state.isLoading = true;
       state.postsDumb = state.postsDumb.filter((val) => {
         return val.id != postId;
@@ -252,15 +344,44 @@ export default new Vuex.Store({
       state.allPostsCount = state.postsDumb.length;
       state.isLoading = false;
     },
-    editUser({ state }, userId, newUserData) {
-      console.log(state + " " + userId + " " + newUserData);
-    },
-    getUserDatas({ state }, userId) {
-      // FOR ADMIN
-      console.log(state + " " + userId);
-    },
-    getUserData({ state }, id) {
-      console.log(state + " " + id);
+    // async editUser({ state }, userId, newUserData) {
+    //   state.isLoading = true;
+    //
+    //     axios.get("http://localhost:5000/users");
+    //     console.log(res);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    //   state.isLoading = false;
+    //   // ============================================================
+    //   console.log(state + " " + userId + " " + newUserData);
+    // },
+    // async getUserDatas({ state }, userId) {
+    //   state.isLoading = true;
+    //
+    //     axios.get(`http://localhost:5000/users/${userId}`);
+    //     console.log(res);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    //   state.isLoading = false;
+    //   // ============================================================
+    //   // FOR ADMIN
+    //   console.log(state + " " + userId);
+    // },
+    async getUserData({ state }, id) {
+      state.isLoading = true;
+
+      axios
+        .get(`http://localhost:5000/users/${id}`)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       state.userData = state.userDumb;
       state.ownPosts = [
         {
@@ -294,6 +415,18 @@ export default new Vuex.Store({
       ];
     },
     async logIn({ state, dispatch }, username, password) {
+      state.isLoading = true;
+
+      axios
+        .get(`http://localhost:5000/users/login/${username}`)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+      // ============================================================
       // TODO
       state.isLoading = true;
       console.log(username + " " + password);
@@ -301,9 +434,8 @@ export default new Vuex.Store({
       state.isLoggedIn = true;
       state.isLoading = false;
     },
-    logOut({ state }) {
+    async logOut({ state }) {
       // TODO
-      console.log("LOGOUT CALLED");
       state.ownPosts = [];
       state.userData = {};
       state.isLoggedIn = false;

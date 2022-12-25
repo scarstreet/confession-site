@@ -36,10 +36,11 @@
   </v-app>
 </template>
 
-<script src="https://apis.google.com/js/api.js"></script>
+<script></script>
 <script>
 import Logo from "@/components/Logo.vue";
 import Login from "@/components/Login.vue";
+import axios from 'axios';
 
 export default {
   name: "App",
@@ -48,14 +49,17 @@ export default {
     Login,
   },
   async mounted() {
-    await this.$store.dispatch('getTotalPostCount').then(() => {
-      this.$store.dispatch('getPage',this.$store.state.currentPage)
-    })
-    console.log(this.$store.state.allPostsCount)
-    this.$root.$on('login', (mode) => {
-      this.loginDialogMode = mode
-      this.loginDialog= true
-    })
+    // await this.$store.dispatch("getTotalPostCount").then(() => {
+    //   this.$store.dispatch("getPage", this.$store.state.currentPage);
+    // });
+    console.log(this.$store.state.allPostsCount);
+    this.$root.$on("login", (mode) => {
+      this.loginDialogMode = mode;
+      this.loginDialog = true;
+    });
+    
+    // TESTING BACKEND HERE
+    this.$store.dispatch('addUser','ostCount','0000')
   },
   data: () => ({
     loginDialog: false,
@@ -87,31 +91,24 @@ export default {
       this.loginDialog = true;
     },
     changeDialogMode() {
-      if (this.loginDialogMode === 'Register')
-        this.loginDialogMode = 'Log In'
-      else
-        this.loginDialogMode = 'Register'
+      if (this.loginDialogMode === "Register") this.loginDialogMode = "Log In";
+      else this.loginDialogMode = "Register";
     },
     async menuHandler(pressed) {
       if (pressed == "Log In" || pressed == "Register") {
         this.loginDialogMode = pressed;
         this.loginDialog = true;
-      }
-      else if (pressed == 'Explore') {
-        this.$router.push('/explore')
-      }
-      else if (pressed == 'Add Post') {
-        this.$router.push('/new-post')
-      }
-      else if (pressed == 'Profile') {
-        this.$router.push('/profile')
-      }
-      else if (pressed == 'Admin') {
-        this.$router.push('/admin')
-      }
-      else if (pressed == 'Log Out') {
-        await this.$store.dispatch('logOut')
-        this.$router.push('/')
+      } else if (pressed == "Explore") {
+        this.$router.push("/explore");
+      } else if (pressed == "Add Post") {
+        this.$router.push("/new-post");
+      } else if (pressed == "Profile") {
+        this.$router.push("/profile");
+      } else if (pressed == "Admin") {
+        this.$router.push("/admin");
+      } else if (pressed == "Log Out") {
+        await this.$store.dispatch("logOut");
+        this.$router.push("/");
       }
     },
     test() {
