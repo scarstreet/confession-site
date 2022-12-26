@@ -31,6 +31,11 @@
         v-on:change-dialog-mode="changeDialogMode"
         v-on:close-dialog="loginDialog = false"
       />
+      <Error 
+        :isDialogOpen="errorState.error"
+        :errorMessage="errorState.errStr"
+        v-on:close-error="closeError"
+      />
       <router-view />
     </v-main>
   </v-app>
@@ -40,6 +45,7 @@
 <script>
 import Logo from "@/components/Logo.vue";
 import Login from "@/components/Login.vue";
+import Error from "@/components/Error.vue";
 import axios from "axios";
 
 export default {
@@ -47,6 +53,7 @@ export default {
   components: {
     Logo,
     Login,
+    Error,
   },
   async mounted() {
     // await this.$store.dispatch("getTotalPostCount").then(() => {
@@ -74,6 +81,12 @@ export default {
     ],
   }),
   computed: {
+    errorState() {
+      return {
+        error: this.$store.state.error,
+        errStr: this.$store.state.errStr,
+      };
+    },
     isLoggedIn() {
       return this.$store.state.isLoggedIn;
     },
@@ -83,13 +96,17 @@ export default {
     },
     isAdmin() {
       if (!this.isLoggedIn) {
-        return false
+        return false;
       } else {
-        return this.$store.state.userData.isAdmin
+        return this.$store.state.userData.isAdmin;
       }
-    }
+    },
   },
   methods: {
+    closeError() {
+      this.$store.state.error = false;
+      this.$store.state.errStr = ''
+    },
     openLoginDialog() {
       this.loginDialog = true;
     },

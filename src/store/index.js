@@ -10,7 +10,7 @@ export default new Vuex.Store({
     // progress
     isLoading: false,
     error: false,
-    encounteredError: "",
+    errStr: "",
     // user data
     isLoggedIn: false,
     userData: {},
@@ -59,18 +59,19 @@ export default new Vuex.Store({
         })
         .then((res) => {
           // user id data.res.insertId
-          state.isLoggedIn = true;
-          var id = res.data.insertId;
           if (id != undefined) {
+            state.isLoggedIn = true;
+            var id = res.data.insertId;
             console.log(`user created with Id ${id}`);
             dispatch("getUserData", id);
             router.push('/profile')
           } else {
-            var errStr = "Something went wrong. Please try again later.";
+            state.errStr = "Something went wrong. Please try again later.";
+            state.error = true;
             var error = res.data.errno;
             if (error == 1062) {
-              errStr = "This username is already taken";
-              console.log(errStr);
+              state.errStr = "This username is already taken";
+              console.log(state.errStr);
             }
           }
         })
@@ -93,8 +94,9 @@ export default new Vuex.Store({
             await dispatch('getUserData', state.userData.id);
             await dispatch("getUserPosts", state.userData.id);
           } else {
-            var errStr = 'Something went wrong. Try again later'
-            console.log(errStr)
+            state.errStr = 'Something went wrong. Try again later'
+            state.error = true;
+            console.log(state.errStr)
           }
         })
         .catch((err) => {
@@ -115,8 +117,9 @@ export default new Vuex.Store({
           if (res.data.insertId != undefined) {
             // router.push(`/posts/${postId}`)
           } else {
-            var errStr = "Something went wrong. Try again later";
-            console.log(errStr);
+            state.errStr = "Something went wrong. Try again later";
+            state.error = true;
+            console.log(state.errStr);
            }
         })
         .catch((err) => {
@@ -133,8 +136,9 @@ export default new Vuex.Store({
             state.allPostsCount = res.data["COUNT(*)"];
             state.availablePages = Math.ceil(res.data["COUNT(*)"]/10);
           } else {
-            var errStr = 'Something went wrong. Try again Later.'
-            console.log(errStr)
+            state.errStr = 'Something went wrong. Try again Later.'
+            state.error = true;
+            console.log(state.errStr)
           }
         })
         .catch((err) => {
@@ -185,8 +189,9 @@ export default new Vuex.Store({
         .delete(`http://localhost:5000/posts/${postId}`)
         .then(async (res) => {
           if (res.data.insertId == undefined) {
-            var errStr = 'Something went wrong, try again later';
-            console.log(errStr);
+            state.error = true;
+            state.errStr = 'Something went wrong, try again later';
+            console.log(state.errStr);
           } else {
             dispatch("getUserData", state.userData.id);
             dispatch("getUserPosts", state.userData.id);
@@ -248,10 +253,13 @@ export default new Vuex.Store({
               router.push('/profile')
             }
             else {
-              var errStr = 'Username or password wrong';
-              console.log(errStr);
+              state.error = true;
+              state.errStr = 'Username or password wrong';
+              console.log(state.errStr);
             }
           } else {
+            state.error = true;
+            state.errStr = "Username or password wrong";
             console.log("Username or password wrong");
           }
         })

@@ -136,13 +136,16 @@ export default {
       this.rePassword= "";
     },
     async Register() {
-      await this.$store.dispatch('addUser', {username : this.username, password: this.password})
-      this.closeDialog()
+      await this.$store.dispatch('addUser', { username: this.username, password: this.password }).then(() => {
+        if(!this.$store.state.error)
+          this.closeDialog()
+      })
     },
     async logIn() {
-      await this.$store.dispatch('logIn',{username:this.username, password: this.password})
-      this.closeDialog()
-      this.$router.push('/profile')
+      await this.$store.dispatch('logIn', { username: this.username, password: this.password }).then(() => {
+        if(!this.$store.state.error)
+          this.closeDialog()
+      })
     }
   },
 };
