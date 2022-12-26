@@ -62,16 +62,15 @@ export default {
     loginDialog: false,
     loginDialogMode: "",
     menuDefault: [
-      { label: "Log In", cdt: true },
-      { label: "Register", cdt: true },
-      { label: "Explore", cdt: true },
+      { label: "Log In" },
+      { label: "Register" },
+      { label: "Explore" },
     ],
     menuLoggedIn: [
-      { label: "Profile", cdt: true },
-      { label: "Add Post", cdt: true },
-      { label: "Explore", cdt: true },
-      { label: "Admin", cdt: true },
-      { label: "Log Out", cdt: true },
+      { label: "Profile" },
+      { label: "Add Post" },
+      { label: "Explore" },
+      { label: "Log Out" },
     ],
   }),
   computed: {
@@ -82,6 +81,13 @@ export default {
       if (this.isLoggedIn) return this.menuLoggedIn;
       return this.menuDefault;
     },
+    isAdmin() {
+      if (!this.isLoggedIn) {
+        return false
+      } else {
+        return this.$store.state.userData.isAdmin
+      }
+    }
   },
   methods: {
     openLoginDialog() {
@@ -96,7 +102,7 @@ export default {
         this.loginDialogMode = pressed;
         this.loginDialog = true;
       } else if (pressed == "Explore") {
-        this.$router.push("/explore");
+        this.$router.push("/explore/1");
       } else if (pressed == "Add Post") {
         this.$router.push("/new-post");
       } else if (pressed == "Profile") {

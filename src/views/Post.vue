@@ -23,7 +23,7 @@
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
       </v-row>
-      <v-row v-for="(c, _) in currentComments.comments" :key="_" style="width:100%" fluid>
+      <v-row v-for="(c, _) in currentComments" :key="_" style="width:100%" fluid>
         <v-card class="ma-2" elevation="1" style="width: 100%">
           <v-container fluid>
             <v-row>
@@ -62,12 +62,23 @@ export default {
       return this.$store.state.currentPost;
     },
     currentComments() {
+      var users = {}
+      if (this.isLoggedIn) {
+        users[this.$store.state.userData.id] = 'You'
+      }
+      this.$store.state.currentComments.forEach(e => {
+        if (!(Object.keys(users).includes(`${e.user_id}`))) {
+          users[e.user_id] = `Anon${Object.keys(users).length}`
+        }
+        e['user'] = users[e.user_id]
+      });
+
       return this.$store.state.currentComments;
     },
   },
   methods: {
     async addComment() {
-      await this.$store.dispatch('addComment', this.comment, this.$route.params.id)
+      await this.$store.dispatch('addComment', {comment:this.comment, postId:this.$route.params.id})
       this.comment=''
     },
   },

@@ -21,18 +21,25 @@ const routes = [
     component: Home,
   },
   {
-    path: "/explore",
+    path: "/explore/:page",
     name: "Explore",
     component: Explore,
+    props: async () => {
+      await store.dispatch('getPage')
+      await store.dispatch('getTotalPostCount')
+    },
   },
   {
     path: "/post/:id",
     name: "Post",
     component: Post,
-    props: () => {
-      store.dispatch("getPost");
+    props: async () => {
       if (store.state.currentPost == undefined) {
-        returnHome()
+        returnHome();
+      } else {
+        // console.log(store.state.currentPost);
+        // if(store.state.currentPost == {})
+        await store.dispatch("getPost");
       }
     },
   },
@@ -66,6 +73,8 @@ const routes = [
     props: () => {
       if (!store.state.isLoggedIn) {
         returnHome();
+      } else {
+        store.dispatch("getUserPosts");
       }
     },
   },

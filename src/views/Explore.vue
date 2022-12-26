@@ -14,7 +14,7 @@
           :title="p.title"
           :content="p.content"
           :isOwned="isPostOwned(p.id)"
-          :commentCnt="p.commentCnt"
+          :commentCnt="p.comment_count"
           style="margin-left: auto; margin-right: auto"
         ></PostCard>
       </v-row>

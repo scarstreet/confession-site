@@ -66,7 +66,6 @@ export default {
       await this.$store.dispatch('addPost', {
         title: this.title,
         content: this.content,
-        commentCnt: 3,
       })
       this.$router.push('/profile')
       this.clearFields()

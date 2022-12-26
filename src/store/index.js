@@ -7,137 +7,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // DUMMY DATA, DELETE LATER
-    userDumb: {
-      id: 0,
-      name: "username",
-      password: "password",
-      isAdmin: true,
-      posts: {
-        count: 4,
-        postIds: [1, 3, 8, 5],
-      },
-    },
-    postsDumb: [
-      {
-        id: 1,
-        title: "Title 1",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. \n\n Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. \n\n Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 2,
-        title: "Title 2",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 3,
-        title: "Title 3",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 4,
-        title: "Title 4",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 5,
-        title: "Title 5",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 6,
-        title: "Title 6",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 7,
-        title: "Title 7",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 8,
-        title: "Title 8",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 9,
-        title: "Title 9",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 10,
-        title: "Title 10",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 11,
-        title: "Title 11",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 12,
-        title: "Title 12",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 13,
-        title: "Title 13",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 14,
-        title: "Title 14",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 15,
-        title: "Title 15",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-      {
-        id: 16,
-        title: "Title 16",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-        commentCnt: 3,
-      },
-    ],
-    // KEYS
-    CLIENT_ID:
-      "296117240787-asv9ba5nv4lp911t02mujgjnd3m9tn1k.apps.googleusercontent.com",
-    API_KEY: "AIzaSyBFHcSZoPKvTRAnwS-BPrUH2sl3IrlFEGY",
     // progress
     isLoading: false,
+    error: false,
     encounteredError: "",
     // user data
     isLoggedIn: false,
@@ -150,25 +22,7 @@ export default new Vuex.Store({
     availablePages: 0,
     currentPost: {},
     posts: [],
-    currentComments: {
-      postId: -1,
-      comments: [
-        {
-          user: "User 1",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus.",
-        },
-        {
-          user: "User 2",
-          content:
-            "Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. ",
-        },
-        {
-          user: "User 3",
-          content: "Donec nisl dolor,",
-        },
-      ],
-    },
+    currentComments: []
   },
   getters: {
     isLoggedIn() {},
@@ -196,7 +50,7 @@ export default new Vuex.Store({
   },
   actions: {
     // ASYNC MUTATIONS chickensoup
-    async addUser({ state, dispatch }, { username, password }) { // DONE
+    async addUser({ state, dispatch }, { username, password }) { // OK
       state.isLoading = true;
       axios
         .post("http://localhost:5000/users", {
@@ -210,6 +64,7 @@ export default new Vuex.Store({
           if (id != undefined) {
             console.log(`user created with Id ${id}`);
             dispatch("getUserData", id);
+            router.push('/profile')
           } else {
             var errStr = "Something went wrong. Please try again later.";
             var error = res.data.errno;
@@ -224,7 +79,7 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async addPost({ state, dispatch }, postInfo) { // DONE
+    async addPost({ state, dispatch }, postInfo) { // OK
       state.isLoading = true;
       axios
         .post("http://localhost:5000/posts", { 
@@ -233,10 +88,10 @@ export default new Vuex.Store({
           content: postInfo.content,
         })
         .then(async (res) => {
+          console.log(state.userData);
           if (res.data.insertId != undefined) {
             await dispatch('getUserData', state.userData.id);
             await dispatch("getUserPosts", state.userData.id);
-            router.push(`/post/${res.data.insertId}`)
           } else {
             var errStr = 'Something went wrong. Try again later'
             console.log(errStr)
@@ -247,7 +102,7 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async addComment({ state }, { comment, postId }) { // DONE
+    async addComment({ state }, { comment, postId }) { // OK
       state.isLoading = true;
       axios
         .post("http://localhost:5000/comments", {
@@ -256,8 +111,9 @@ export default new Vuex.Store({
           content: comment,
         })
         .then((res) => {
+          console.log(res)
           if (res.data.insertId != undefined) {
-            router.push(`/posts/${postId}`)
+            // router.push(`/posts/${postId}`)
           } else {
             var errStr = "Something went wrong. Try again later";
             console.log(errStr);
@@ -268,13 +124,14 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async getTotalPostCount({ state }) { // DONE
+    async getTotalPostCount({ state }) { // OK
       state.isLoading = true;
       axios
         .get("http://localhost:5000/posts/totalpost/t")
         .then((res) => {
           if (res.data["COUNT(*)"] != undefined) {
             state.allPostsCount = res.data["COUNT(*)"];
+            state.availablePages = Math.ceil(res.data["COUNT(*)"]/10);
           } else {
             var errStr = 'Something went wrong. Try again Later.'
             console.log(errStr)
@@ -285,30 +142,35 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async getPage({ state }, page) { // DONE
+    async getPage({ state }) { // OK
       state.isLoading = true;
+      var page = router.currentRoute.params.page;
       axios
         .get(`http://localhost:5000/posts/p/${page}`)
         .then((res) => {
           state.currentPage = page
           state.posts = res.data
+          if (state.posts.length == 0)
+            router.push('/explore/1')
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
     },
-    async getPost({ state }) { // + comments, DONE
+    async getPost({ state }) { // OK
       state.isLoading = true;
       var postId = router.currentRoute.params.id;
-      console.log('hi')
       axios
         .get(`http://localhost:5000/posts/${postId}`)
         .then(async (res) => {
           state.currentPost = res.data
+          if (state.currentPost == '') {
+            router.push('/explore/1')
+            return
+          }
           await axios.get(`http://localhost:5000/comments/${postId}`).then((ress) => {
             state.currentComments = ress.data
-            console.log(ress)
           });
         })
         .catch((err) => {
@@ -316,7 +178,7 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async deletePost({ state, dispatch }, postId) { // DONE
+    async deletePost({ state, dispatch }, postId) { // OK
       state.isLoading = true;
 
       axios
@@ -334,11 +196,11 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    async getUserData({ state }, id) { //DONE
+    async getUserData({ state }, id) { // OK
       state.isLoading = true;
       axios
         .get(`http://localhost:5000/users/${id}`)
-        .then((res) => {
+        .then(async (res) => {
           var user = {
             id: id,
             name: res.data.username,
@@ -350,7 +212,7 @@ export default new Vuex.Store({
             },
           };
           state.userData = user;
-          axios.get(`http://localhost:5000/posts/user/${id}`).then((res) => {
+          await axios.get(`http://localhost:5000/posts/user/${id}`).then((res) => {
             var posts = res.data;
             var postIds = []
             posts.forEach(p => {
@@ -365,23 +227,25 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async getUserPosts({ state }) { // DONE
+    async getUserPosts({ state }) { // OK
       state.isLoading = true;
       axios.get(`http://localhost:5000/posts/user/${state.userData.id}`).then((res) => {
         state.ownPosts = res.data;
+        state.ownPosts.reverse();
       });
       state.isLoading = false;
     },
-    async logIn({ state, dispatch }, {username, password}) { //DONE
+    async logIn({ state, dispatch }, {username, password}) { // OK
       state.isLoading = true;
       axios
         .get(`http://localhost:5000/users/login/${username}`)
-        .then((res) => {
+        .then(async (res) => {
           console.log(res)
           if (res.data.id != undefined) {
             if (res.data.password === password) {
               state.isLoggedIn = true;
-              dispatch("getUserData", res.data.id);
+              await dispatch("getUserData", res.data.id);
+              router.push('/profile')
             }
             else {
               var errStr = 'Username or password wrong';
@@ -396,7 +260,7 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async logOut({ state }) { //DONE
+    async logOut({ state }) { // OK
       state.ownPosts = [];
       state.userData = {};
       state.isLoggedIn = false;

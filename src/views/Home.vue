@@ -52,7 +52,7 @@ export default {
       this.$root.$emit('login',mode)
     },
     toExplore() {
-      this.$router.push('/explore')
+      this.$router.push('/explore/1')
     }
   }
   

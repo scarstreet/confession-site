@@ -21,7 +21,7 @@
           :title="p.title"
           :content="p.content"
           :isOwned="true"
-          :commentCnt="p.commentCnt"
+          :commentCnt="p.comment_count"
           style="width:95%"
         ></PostCard>
       </v-row>
@@ -45,7 +45,7 @@ export default {
     //   return this.$store.commit("isPostOwned", id);
     // },
     userPosts() { 
-      console.log(this.$store.state.userData)
+      console.log(this.$store.state.ownPosts)
       return this.$store.state.ownPosts
     },
     userName() { 

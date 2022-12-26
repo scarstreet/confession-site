@@ -123,8 +123,8 @@ export default {
     },
     closeDialog() {
       // console.log(this.dialogMode);
-      this.$emit("close-dialog");
       this.clearTextFields()
+      this.$emit("close-dialog");
     },
     clearTextFields() {
       this.pwShow=  false;
@@ -136,14 +136,13 @@ export default {
       this.rePassword= "";
     },
     async Register() {
-      await this.$store.dispatch('addUser', this.username, this.password)
+      await this.$store.dispatch('addUser', {username : this.username, password: this.password})
       this.closeDialog()
-      this.$route.push('profile')
     },
     async logIn() {
-      await this.$store.dispatch('logIn', this.username, this.password)
+      await this.$store.dispatch('logIn',{username:this.username, password: this.password})
       this.closeDialog()
-      this.$route.push('profile')
+      this.$router.push('/profile')
     }
   },
 };

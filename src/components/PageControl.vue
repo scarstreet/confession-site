@@ -29,8 +29,9 @@ export default {
   },
   methods: {
     changePage(n) {
-      // console.log(n)
-      this.$store.dispatch('getPage', this.currentPage + n)
+      var toPage = parseInt(this.currentPage) + n
+      this.$router.push(`/explore/${toPage}`)
+      // this.$store.dispatch('getPage', this.currentPage + n)
       document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
     },
   },
