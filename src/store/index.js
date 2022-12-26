@@ -195,8 +195,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // ASYNC MUTATIONS
-    async addUser({ state, dispatch }, username, password) {
+    // ASYNC MUTATIONS chickensoup
+    async addUser({ state, dispatch }, { username, password }) { // DONE
       state.isLoading = true;
       axios
         .post("http://localhost:5000/users", {
@@ -204,43 +204,51 @@ export default new Vuex.Store({
           password: password,
         })
         .then((res) => {
-          console.log(res);
+          // user id data.res.insertId
+          state.isLoggedIn = true;
+          var id = res.data.insertId;
+          if (id != undefined) {
+            console.log(`user created with Id ${id}`);
+            dispatch("getUserData", id);
+          } else {
+            var errStr = "Something went wrong. Please try again later.";
+            var error = res.data.errno;
+            if (error == 1062) {
+              errStr = "This username is already taken";
+              console.log(errStr);
+            }
+          }
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
-      // ============================================================
-      state.isLoggedIn = true;
-      await dispatch("getUserData");
-      state.userData.name = username;
     },
-    async addPost({ state }, postInfo) {
+    async addPost({ state, dispatch }, postInfo) { // DONE
       state.isLoading = true;
-
       axios
-        .post("http://localhost:5000/posts", {
+        .post("http://localhost:5000/posts", { 
           u_id: state.userData.id,
           title: postInfo.title,
           content: postInfo.content,
         })
-        .then((res) => {
-          console.log(res);
+        .then(async (res) => {
+          if (res.data.insertId != undefined) {
+            await dispatch('getUserData', state.userData.id);
+            await dispatch("getUserPosts", state.userData.id);
+            router.push(`/post/${res.data.insertId}`)
+          } else {
+            var errStr = 'Something went wrong. Try again later'
+            console.log(errStr)
+          }
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
-      // ============================================================
-      state.isPosting = true;
-      postInfo["id"] = state.postsDumb.length + 1;
-      state.ownPosts.push(postInfo);
-      state.userData.posts.postIds.push(postInfo["id"]);
-      state.isPosting = false;
     },
-    async addComment({ state }, comment, postId) {
+    async addComment({ state }, { comment, postId }) { // DONE
       state.isLoading = true;
-
       axios
         .post("http://localhost:5000/comments", {
           u_id: state.userData.id,
@@ -248,194 +256,147 @@ export default new Vuex.Store({
           content: comment,
         })
         .then((res) => {
-          console.log(res);
+          if (res.data.insertId != undefined) {
+            router.push(`/posts/${postId}`)
+          } else {
+            var errStr = "Something went wrong. Try again later";
+            console.log(errStr);
+           }
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
-      // ============================================================
-      state.currentComments.commentCnt += 1;
-      state.currentComments.comments.push({
-        user: "You",
-        content: comment,
-      });
     },
-    async getTotalPostCount({ state }) {
+    async getTotalPostCount({ state }) { // DONE
       state.isLoading = true;
-
       axios
-        .get("http://localhost:5000/posts/cnt")
+        .get("http://localhost:5000/posts/totalpost/t")
         .then((res) => {
-          console.log(res);
+          if (res.data["COUNT(*)"] != undefined) {
+            state.allPostsCount = res.data["COUNT(*)"];
+          } else {
+            var errStr = 'Something went wrong. Try again Later.'
+            console.log(errStr)
+          }
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
-      // ============================================================
-      state.allPostsCount = state.postsDumb.length;
-      state.availablePages = Math.ceil(state.allPostsCount / state.postPerPage);
     },
-    async getPage({ state }, page) {
+    async getPage({ state }, page) { // DONE
       state.isLoading = true;
-
       axios
-        .get(`http://localhost:5000/posts/${page}`)
+        .get(`http://localhost:5000/posts/p/${page}`)
         .then((res) => {
-          console.log(res);
+          state.currentPage = page
+          state.posts = res.data
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
-      // ============================================================
-      state.isLoading = true;
-      var idxStart = (page - 1) * state.postPerPage;
-      var idxEnd = page * state.postPerPage;
-      if (idxEnd - idxStart == state.postPerPage)
-        state.posts = state.postsDumb.slice(idxStart, idxEnd);
-      else
-        state.posts = state.postsDumb.slice(idxStart, state.postsDumb.length);
-      state.currentPage = page;
-      state.isLoading = false;
-      return state.posts;
     },
-    async getPost({ state }) {
+    async getPost({ state }) { // + comments, DONE
       state.isLoading = true;
       var postId = router.currentRoute.params.id;
-
+      console.log('hi')
       axios
         .get(`http://localhost:5000/posts/${postId}`)
-        .then((res) => {
-          console.log(res);
+        .then(async (res) => {
+          state.currentPost = res.data
+          await axios.get(`http://localhost:5000/comments/${postId}`).then((ress) => {
+            state.currentComments = ress.data
+            console.log(ress)
+          });
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
-      // ============================================================
-      state.currentPost = state.postsDumb.filter((x) => x.id == postId)[0];
-      state.comments;
     },
-    async deletePost({ state }, postId) {
+    async deletePost({ state, dispatch }, postId) { // DONE
       state.isLoading = true;
 
       axios
         .delete(`http://localhost:5000/posts/${postId}`)
-        .then((res) => {
-          console.log(res);
+        .then(async (res) => {
+          if (res.data.insertId == undefined) {
+            var errStr = 'Something went wrong, try again later';
+            console.log(errStr);
+          } else {
+            dispatch("getUserData", state.userData.id);
+            dispatch("getUserPosts", state.userData.id);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
-      state.isLoading = false;
-      // ============================================================
-      state.isLoading = true;
-      state.postsDumb = state.postsDumb.filter((val) => {
-        return val.id != postId;
-      });
-      state.ownPosts = state.ownPosts.filter((val) => {
-        return val.id != postId;
-      });
-      state.posts = state.posts.filter((val) => {
-        return val.id != postId;
-      });
-      state.allPostsCount = state.postsDumb.length;
-      state.isLoading = false;
     },
-    // async editUser({ state }, userId, newUserData) {
-    //   state.isLoading = true;
-    //
-    //     axios.get("http://localhost:5000/users");
-    //     console.log(res);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    //   state.isLoading = false;
-    //   // ============================================================
-    //   console.log(state + " " + userId + " " + newUserData);
-    // },
-    // async getUserDatas({ state }, userId) {
-    //   state.isLoading = true;
-    //
-    //     axios.get(`http://localhost:5000/users/${userId}`);
-    //     console.log(res);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    //   state.isLoading = false;
-    //   // ============================================================
-    //   // FOR ADMIN
-    //   console.log(state + " " + userId);
-    // },
-    async getUserData({ state }, id) {
+    async getUserData({ state }, id) { //DONE
       state.isLoading = true;
-
       axios
         .get(`http://localhost:5000/users/${id}`)
         .then((res) => {
-          console.log(res);
+          var user = {
+            id: id,
+            name: res.data.username,
+            password: res.data.password,
+            isAdmin: res.data.is_admin == 1 ? true : false,
+            posts: {
+              count: 0,
+              postIds: [],
+            },
+          };
+          state.userData = user;
+          axios.get(`http://localhost:5000/posts/user/${id}`).then((res) => {
+            var posts = res.data;
+            var postIds = []
+            posts.forEach(p => {
+              postIds.push(p.id)
+            });
+            state.userData.posts.postIds = postIds;
+            state.userData.posts.count = postIds.length;
+          });
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
-      // ============================================================
-      state.userData = state.userDumb;
-      state.ownPosts = [
-        {
-          id: 1,
-          title: "Title 1",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. \n\n Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. \n\n Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-          commentCnt: 3,
-        },
-        {
-          id: 3,
-          title: "Title 3",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-          commentCnt: 3,
-        },
-        {
-          id: 5,
-          title: "Title 5",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-          commentCnt: 3,
-        },
-        {
-          id: 8,
-          title: "Title 8",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel libero et augue congue pellentesque non sit amet justo. Pellentesque viverra enim et dictum egestas. Phasellus consectetur, ipsum id lacinia hendrerit, mi nunc auctor sapien, vitae commodo sem nunc at tellus. Sed luctus mauris ante, at tincidunt nisl venenatis a. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend quis elit nec mattis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum in augue eros. Suspendisse vitae felis nisi. Nam iaculis ante nec bibendum vestibulum. Suspendisse potenti. Morbi et eros fermentum, feugiat mauris ac, rhoncus magna. Donec luctus lectus nec porta dictum. Phasellus scelerisque rhoncus nisl in euismod. Vivamus non diam tortor. Donec nisl dolor, pulvinar eu imperdiet a, dignissim at ligula. Suspendisse mauris sapien, fermentum ac eleifend sit amet, pellentesque a nibh. In hac habitasse platea dictumst. Aliquam eget nibh mattis, auctor magna tempus, rhoncus mauris. Nam pretium euismod metus ut lacinia. Donec fringilla mi in consequat sollicitudin. Morbi vulputate tortor a lorem elementum, at ultricies orci iaculis. Pellentesque lobortis ac risus eget vestibulum.",
-          commentCnt: 3,
-        },
-      ];
     },
-    async logIn({ state, dispatch }, username, password) {
+    async getUserPosts({ state }) { // DONE
       state.isLoading = true;
-
+      axios.get(`http://localhost:5000/posts/user/${state.userData.id}`).then((res) => {
+        state.ownPosts = res.data;
+      });
+      state.isLoading = false;
+    },
+    async logIn({ state, dispatch }, {username, password}) { //DONE
+      state.isLoading = true;
       axios
         .get(`http://localhost:5000/users/login/${username}`)
         .then((res) => {
-          console.log(res);
+          console.log(res)
+          if (res.data.id != undefined) {
+            if (res.data.password === password) {
+              state.isLoggedIn = true;
+              dispatch("getUserData", res.data.id);
+            }
+            else {
+              var errStr = 'Username or password wrong';
+              console.log(errStr);
+            }
+          } else {
+            console.log("Username or password wrong");
+          }
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
-      // ============================================================
-      // TODO
-      state.isLoading = true;
-      console.log(username + " " + password);
-      await dispatch("getUserData", 0);
-      state.isLoggedIn = true;
-      state.isLoading = false;
     },
-    async logOut({ state }) {
-      // TODO
+    async logOut({ state }) { //DONE
       state.ownPosts = [];
       state.userData = {};
       state.isLoggedIn = false;

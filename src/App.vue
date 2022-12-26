@@ -40,7 +40,7 @@
 <script>
 import Logo from "@/components/Logo.vue";
 import Login from "@/components/Login.vue";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "App",
@@ -57,9 +57,6 @@ export default {
       this.loginDialogMode = mode;
       this.loginDialog = true;
     });
-    
-    // TESTING BACKEND HERE
-    this.$store.dispatch('addUser','ostCount','0000')
   },
   data: () => ({
     loginDialog: false,
