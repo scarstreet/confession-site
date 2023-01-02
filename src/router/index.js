@@ -25,8 +25,17 @@ const routes = [
     name: "Explore",
     component: Explore,
     props: async () => {
-      await store.dispatch('getPage')
-      await store.dispatch('getTotalPostCount')
+      await store.dispatch("getPage");
+      await store.dispatch("getTotalPostCount");
+    },
+  },
+  {
+    path: "/search/:to_search/:page",
+    name: "Search",
+    component: Explore,
+    props: async () => {
+      await store.dispatch("getSearch");
+      await store.dispatch("getTotalSearchCount");
     },
   },
   {

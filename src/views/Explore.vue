@@ -1,7 +1,8 @@
 <template>
   <v-container fluid>
     <v-col>
-      <v-row id="top"><PageControl/></v-row>
+      <v-row class="mt-1" id="top" style="width:80%; margin-left: auto; margin-right: auto;"><Search/></v-row>
+      <v-row><PageControl/></v-row>
       <v-row
         v-for="(p, _) in currentPosts"
         :key="_"
@@ -26,12 +27,14 @@
 <script>
 import PostCard from "@/components/PostCard.vue";
 import PageControl from "../components/PageControl.vue";
+import Search from "@/components/Search.vue"
 
 export default {
   name: "Explore",
   components: {
     PostCard,
     PageControl,
+    Search,
   },
   data: () => ({}),
   mounted() {},

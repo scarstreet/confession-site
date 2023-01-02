@@ -22,7 +22,7 @@ export default new Vuex.Store({
     availablePages: 0,
     currentPost: {},
     posts: [],
-    currentComments: []
+    currentComments: [],
   },
   getters: {
     isLoggedIn() {},
@@ -50,7 +50,8 @@ export default new Vuex.Store({
   },
   actions: {
     // ASYNC MUTATIONS chickensoup
-    async addUser({ state, dispatch }, { username, password }) { // OK
+    async addUser({ state, dispatch }, { username, password }) {
+      // OK
       state.isLoading = true;
       axios
         .post("http://localhost:5000/users", {
@@ -64,7 +65,7 @@ export default new Vuex.Store({
             var id = res.data.insertId;
             console.log(`user created with Id ${id}`);
             dispatch("getUserData", id);
-            router.push('/profile')
+            router.push("/profile");
           } else {
             state.errStr = "Something went wrong. Please try again later.";
             state.error = true;
@@ -80,10 +81,11 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async addPost({ state, dispatch }, postInfo) { // OK
+    async addPost({ state, dispatch }, postInfo) {
+      // OK
       state.isLoading = true;
       axios
-        .post("http://localhost:5000/posts", { 
+        .post("http://localhost:5000/posts", {
           u_id: state.userData.id,
           title: postInfo.title,
           content: postInfo.content,
@@ -91,12 +93,12 @@ export default new Vuex.Store({
         .then(async (res) => {
           console.log(state.userData);
           if (res.data.insertId != undefined) {
-            await dispatch('getUserData', state.userData.id);
+            await dispatch("getUserData", state.userData.id);
             await dispatch("getUserPosts", state.userData.id);
           } else {
-            state.errStr = 'Something went wrong. Try again later'
+            state.errStr = "Something went wrong. Try again later";
             state.error = true;
-            console.log(state.errStr)
+            console.log(state.errStr);
           }
         })
         .catch((err) => {
@@ -104,7 +106,8 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async addComment({ state }, { comment, postId }) { // OK
+    async addComment({ state }, { comment, postId }) {
+      // OK
       state.isLoading = true;
       axios
         .post("http://localhost:5000/comments", {
@@ -113,32 +116,33 @@ export default new Vuex.Store({
           content: comment,
         })
         .then((res) => {
-          console.log(res)
+          console.log(res);
           if (res.data.insertId != undefined) {
             // router.push(`/posts/${postId}`)
           } else {
             state.errStr = "Something went wrong. Try again later";
             state.error = true;
             console.log(state.errStr);
-           }
+          }
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
     },
-    async getTotalPostCount({ state }) { // OK
+    async getTotalPostCount({ state }) {
+      // OK
       state.isLoading = true;
       axios
         .get("http://localhost:5000/posts/totalpost/t")
         .then((res) => {
           if (res.data["COUNT(*)"] != undefined) {
             state.allPostsCount = res.data["COUNT(*)"];
-            state.availablePages = Math.ceil(res.data["COUNT(*)"]/10);
+            state.availablePages = Math.ceil(res.data["COUNT(*)"] / 10);
           } else {
-            state.errStr = 'Something went wrong. Try again Later.'
+            state.errStr = "Something went wrong. Try again Later.";
             state.error = true;
-            console.log(state.errStr)
+            console.log(state.errStr);
           }
         })
         .catch((err) => {
@@ -146,43 +150,108 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async getPage({ state }) { // OK
+    async getPage({ state }) {
+      // OK
       state.isLoading = true;
       var page = router.currentRoute.params.page;
       axios
         .get(`http://localhost:5000/posts/p/${page}`)
         .then((res) => {
-          state.currentPage = page
-          state.posts = res.data
-          if (state.posts.length == 0)
-            router.push('/explore/1')
+          state.currentPage = page;
+          state.posts = res.data;
+          if (state.posts.length == 0) router.push("/explore/1");
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
     },
-    async getPost({ state }) { // OK
+    async getPost({ state }) {
+      // OK
       state.isLoading = true;
       var postId = router.currentRoute.params.id;
       axios
         .get(`http://localhost:5000/posts/${postId}`)
         .then(async (res) => {
-          state.currentPost = res.data
-          if (state.currentPost == '') {
-            router.push('/explore/1')
-            return
+          state.currentPost = res.data;
+          if (state.currentPost == "") {
+            router.push("/explore/1");
+            return;
           }
-          await axios.get(`http://localhost:5000/comments/${postId}`).then((ress) => {
-            state.currentComments = ress.data
-          });
+          await axios
+            .get(`http://localhost:5000/comments/${postId}`)
+            .then((ress) => {
+              state.currentComments = ress.data;
+            });
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
     },
-    async deletePost({ state, dispatch }, postId) { // OK
+    async getSearch({ state }) {
+      // TODO
+      state.isLoading = true;
+      var page = router.currentRoute.params.page;
+      var toSearch = router.currentRoute.params.to_search;
+      axios
+        .get(`http://localhost:5000/posts/search/${toSearch}/${page}`)
+        .then((res) => {
+          state.currentPage = page;
+          state.posts = res.data;
+          if (state.posts.length == 0) router.push(`/search/${toSearch}/1`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+    },
+    async getTotalSearchCount({ state }) {
+      // OK
+      state.isLoading = true;
+      var toSearch = router.currentRoute.params.to_search;
+      axios
+        .get(`http://localhost:5000/posts/totalpost/s/${toSearch}`)
+        .then((res) => {
+          if (res.data[0]["COUNT(*)"] != undefined) {
+            state.allPostsCount = res.data[0]["COUNT(*)"];
+            state.availablePages = Math.ceil(res.data[0]["COUNT(*)"] / 10);
+          } else {
+            state.errStr = "Something went wrong. Try again Later.";
+            state.error = true;
+            console.log(state.errStr);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+    },
+    async updatePost({ state, dispatch }, { title, content, postId }) {
+      state.isLoading = true;
+      axios
+        .update(`http://localhost:5000/posts/${postId}`, {
+          title: title,
+          content: content,
+        })
+        .then(async (res) => {
+          console.log(state.userData);
+          if (res.data.insertId != undefined) {
+            await dispatch("getUserData", state.userData.id);
+            await dispatch("getUserPosts", state.userData.id);
+          } else {
+            state.errStr = "Something went wrong. Try again later";
+            state.error = true;
+            console.log(state.errStr);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      state.isLoading = false;
+    },
+    async deletePost({ state, dispatch }, postId) {
+      // OK
       state.isLoading = true;
 
       axios
@@ -190,7 +259,7 @@ export default new Vuex.Store({
         .then(async (res) => {
           if (res.data.insertId == undefined) {
             state.error = true;
-            state.errStr = 'Something went wrong, try again later';
+            state.errStr = "Something went wrong, try again later";
             console.log(state.errStr);
           } else {
             dispatch("getUserData", state.userData.id);
@@ -201,7 +270,8 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    async getUserData({ state }, id) { // OK
+    async getUserData({ state }, id) {
+      // OK
       state.isLoading = true;
       axios
         .get(`http://localhost:5000/users/${id}`)
@@ -217,44 +287,49 @@ export default new Vuex.Store({
             },
           };
           state.userData = user;
-          await axios.get(`http://localhost:5000/posts/user/${id}`).then((res) => {
-            var posts = res.data;
-            var postIds = []
-            posts.forEach(p => {
-              postIds.push(p.id)
+          await axios
+            .get(`http://localhost:5000/posts/user/${id}`)
+            .then((res) => {
+              var posts = res.data;
+              var postIds = [];
+              posts.forEach((p) => {
+                postIds.push(p.id);
+              });
+              state.userData.posts.postIds = postIds;
+              state.userData.posts.count = postIds.length;
             });
-            state.userData.posts.postIds = postIds;
-            state.userData.posts.count = postIds.length;
-          });
         })
         .catch((err) => {
           console.log(err);
         });
       state.isLoading = false;
     },
-    async getUserPosts({ state }) { // OK
+    async getUserPosts({ state }) {
+      // OK
       state.isLoading = true;
-      axios.get(`http://localhost:5000/posts/user/${state.userData.id}`).then((res) => {
-        state.ownPosts = res.data;
-        state.ownPosts.reverse();
-      });
+      axios
+        .get(`http://localhost:5000/posts/user/${state.userData.id}`)
+        .then((res) => {
+          state.ownPosts = res.data;
+          state.ownPosts.reverse();
+        });
       state.isLoading = false;
     },
-    async logIn({ state, dispatch }, {username, password}) { // OK
+    async logIn({ state, dispatch }, { username, password }) {
+      // OK
       state.isLoading = true;
       axios
         .get(`http://localhost:5000/users/login/${username}`)
         .then(async (res) => {
-          console.log(res)
+          console.log(res);
           if (res.data.id != undefined) {
             if (res.data.password === password) {
               state.isLoggedIn = true;
               await dispatch("getUserData", res.data.id);
-              router.push('/profile')
-            }
-            else {
+              router.push("/profile");
+            } else {
               state.error = true;
-              state.errStr = 'Username or password wrong';
+              state.errStr = "Username or password wrong";
               console.log(state.errStr);
             }
           } else {
@@ -268,7 +343,8 @@ export default new Vuex.Store({
         });
       state.isLoading = false;
     },
-    async logOut({ state }) { // OK
+    async logOut({ state }) {
+      // OK
       state.ownPosts = [];
       state.userData = {};
       state.isLoggedIn = false;

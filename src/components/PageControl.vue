@@ -30,7 +30,12 @@ export default {
   methods: {
     changePage(n) {
       var toPage = parseInt(this.currentPage) + n
-      this.$router.push(`/explore/${toPage}`)
+      if (this.$route.name === 'Search') {
+        var toSearch = this.$router.currentRoute.params.to_search
+        this.$router.push(`/search/${toSearch}/${toPage}`)
+      } else {
+        this.$router.push(`/explore/${toPage}`)
+      }
       // this.$store.dispatch('getPage', this.currentPage + n)
       document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
     },
