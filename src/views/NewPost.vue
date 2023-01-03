@@ -34,7 +34,7 @@
     <v-col>
       <v-form v-model="isFormValid">
         <v-row justify="center" style="margin-bottom: 30px; margin-top: 10px">
-          <h1>New Confession</h1>
+          <h1>{{ mode=='edit'?'Edit':'New'}} Confession</h1>
         </v-row>
         <v-row>
           <v-text-field
