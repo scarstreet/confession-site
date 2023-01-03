@@ -66,14 +66,14 @@ export default new Vuex.Store({
           password: password,
         })
         .then((res) => {
-          // user id data.res.insertId
+          var id = res.data.insertId;
           if (id != undefined) {
             state.isLoggedIn = true;
-            var id = res.data.insertId;
             console.log(`user created with Id ${id}`);
             dispatch("getUserData", id);
             router.push("/profile");
           } else {
+            console.log('called from addUser')
             state.errStr = "Something went wrong. Please try again later.";
             state.error = true;
             var error = res.data.errno;
@@ -103,6 +103,7 @@ export default new Vuex.Store({
             await dispatch("getUserData", state.userData.id);
             await dispatch("getUserPosts", state.userData.id);
           } else {
+            console.log("called from addPost");
             state.errStr = "Something went wrong. Try again later";
             state.error = true;
             console.log(state.errStr);
@@ -127,6 +128,7 @@ export default new Vuex.Store({
           if (res.data.insertId != undefined) {
             // router.push(`/posts/${postId}`)
           } else {
+            console.log("called from addComment");
             state.errStr = "Something went wrong. Try again later";
             state.error = true;
             console.log(state.errStr);
@@ -147,6 +149,7 @@ export default new Vuex.Store({
             state.allPostsCount = res.data["COUNT(*)"];
             state.availablePages = Math.ceil(res.data["COUNT(*)"] / 10);
           } else {
+            console.log("called from getTotalPostCount");
             state.errStr = "Something went wrong. Try again Later.";
             state.error = true;
             console.log(state.errStr);
@@ -224,6 +227,7 @@ export default new Vuex.Store({
             state.allPostsCount = res.data[0]["COUNT(*)"];
             state.availablePages = Math.ceil(res.data[0]["COUNT(*)"] / 10);
           } else {
+            console.log("called from getTotalSearchCount");
             state.errStr = "Something went wrong. Try again Later.";
             state.error = true;
             console.log(state.errStr);
@@ -248,6 +252,7 @@ export default new Vuex.Store({
             await dispatch("getUserData", state.userData.id);
             await dispatch("getUserPosts", state.userData.id);
           } else {
+            console.log("called from updatePost");
             state.errStr = "Something went wrong. Try again later";
             state.error = true;
             console.log(state.errStr);
@@ -270,6 +275,7 @@ export default new Vuex.Store({
             state.errStr = "Something went wrong, try again later";
             console.log(state.errStr);
           } else {
+            console.log("called from deletePost");
             dispatch("getUserData", state.userData.id);
             dispatch("getUserPosts", state.userData.id);
           }
