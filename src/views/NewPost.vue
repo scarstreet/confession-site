@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
-    <span>{{ mode }}</span>
-    <span>{{ toEdit }}</span>
+    <span v-if="false">{{ mode }}</span>
+    <span v-if="false">{{ toEdit }}</span>
     <v-dialog v-model="toSubmit" width="500px" height="300px">
       <v-card width="500px" height="300px">
         <v-container fluid style="height: 100%">
