@@ -7,6 +7,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    // post mode
+    postMode: "submit",
+    editPost: {
+      title: "",
+      id: -1,
+      content: "",
+    },
     // progress
     isLoading: false,
     error: false,
@@ -230,11 +237,12 @@ export default new Vuex.Store({
     async updatePost({ state, dispatch }, { title, content, postId }) {
       state.isLoading = true;
       axios
-        .update(`http://localhost:5000/posts/${postId}`, {
+        .put(`http://localhost:5000/posts/${postId}`, {
           title: title,
           content: content,
         })
         .then(async (res) => {
+          console.log(res)
           console.log(state.userData);
           if (res.data.insertId != undefined) {
             await dispatch("getUserData", state.userData.id);

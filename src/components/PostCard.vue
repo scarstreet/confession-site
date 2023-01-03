@@ -4,22 +4,35 @@
       <v-card width="500px" height="300px">
         <v-container fluid style="height: 100%">
           <v-col style="height: 100%" align="center" justify="center">
-            <v-row align="center" justify="center" style="height:70%; width: 80%;">
-              <h2>
-                Are you sure you want to delete your post "{{ title }}"?
-              </h2>
+            <v-row
+              align="center"
+              justify="center"
+              style="height: 70%; width: 80%"
+            >
+              <h2>Are you sure you want to delete your post "{{ title }}"?</h2>
             </v-row>
             <v-row>
-              <v-col><v-btn color="red" text @click="deletePost()">DELETE</v-btn></v-col>
-              <v-col><v-btn color="primary" text @click="toDelete = false">Cancel</v-btn></v-col>
+              <v-col
+                ><v-btn color="red" text @click="deletePost()"
+                  >DELETE</v-btn
+                ></v-col
+              >
+              <v-col
+                ><v-btn color="primary" text @click="toDelete = false"
+                  >Cancel</v-btn
+                ></v-col
+              >
             </v-row>
           </v-col>
         </v-container>
       </v-card>
     </v-dialog>
     <v-card-title>
-      <span  @click="gotoPost()">{{ title }}</span>
+      <span @click="gotoPost()">{{ title }}</span>
       <v-spacer></v-spacer>
+      <v-btn v-if="isOwned" @click="editPost()" icon>
+        <v-icon>mdi-pencil-box-outline</v-icon>
+      </v-btn>
       <v-btn v-if="isOwned" @click="toDelete = true" icon>
         <v-icon>mdi-delete</v-icon>
       </v-btn>
@@ -34,7 +47,8 @@
         width: 95%;
         margin-left: auto;
         margin-right: auto;
-      ">{{ content }}</v-card-text
+      "
+      >{{ content }}</v-card-text
     >
     <v-card-actions class="ma-4" @click="gotoPost()">
       <v-spacer></v-spacer>
@@ -45,6 +59,8 @@
 </template>
 
 <script>
+// import eventBus from "../main";
+
 export default {
   name: "PostCard",
   props: {
@@ -58,9 +74,23 @@ export default {
     toDelete: false,
   }),
   methods: {
+    editPost() {
+      this.$store.state.postMode = 'edit'
+      this.$store.state.editPost = {
+        title: this.title,
+        content: this.content,
+        id: this.id,
+      }
+      // eventBus.$emit("edit-post", {
+      //   title: this.title,
+      //   content: this.content,
+      //   id: this.id,
+      // });
+      this.$router.push("/edit-post");
+    },
     deletePost() {
       this.toDelete = false;
-      this.$store.dispatch('deletePost', this.id);
+      this.$store.dispatch("deletePost", this.id);
     },
     async gotoPost() {
       console.log(this.id);

@@ -76,6 +76,16 @@ const routes = [
     },
   },
   {
+    path: "/edit-post",
+    name: "EditPost",
+    component: NewPost,
+    props: () => {
+      if (!store.state.isLoggedIn) {
+        returnHome();
+      }
+    },
+  },
+  {
     path: "/profile",
     name: "Profile",
     component: Profile,
